@@ -17,6 +17,7 @@ export default {
     padding: 10px 20px;
     margin: 0 auto;
     text-align: center;
+    position: sticky;
   }
   nav a {
     text-decoration: none;
