@@ -1,9 +1,8 @@
 <template>
   <section>
-    <img class="main-img"
-      src="https://opgg-static.akamaized.net/logo/20221205205756.a5ef964a42ca44b69cacc12b769d6c5a.png?image=q_auto,f_webp,w_auto&v=1670665277508">
+    <img :src="require('../static/img/basic/main.jpg')" alt="가렌의 심판" class="main-img">
     <form @submit="handleSubmit" class="search-form">
-      <input type="text" name="summonername" v-model="summonername" placeholder="소환사 닉네임을 입력하세요."><br>
+      <input v-model="summonerName" name="summonerName" placeholder="소환사 닉네임을 입력하세요." type="text"><br>
       <button type="submit">.GG</button>
     </form>
   </section>
@@ -13,14 +12,14 @@
   export default {
     data() {
       return {
-        summonername: ""
+        summonerName: ""
       }
     },
     methods: {
       handleSubmit(e) {
         e.preventDefault();
-        if (this.summonername !== null && this.summonername !== "") {
-          this.$router.push(`/summoner/${this.summonername}`);
+        if (this.summonerName !== null && this.summonerName !== "") {
+          this.$router.push(`/summoner/${this.summonerName}`);
         }
       }
     }
