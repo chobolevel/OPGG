@@ -5,12 +5,12 @@
     </div>
     <div class="summoner" v-else>
       <div class="summoner-detail">
-        <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/profileicon/${getSummoner.profileIconId}.png`">
+        <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/profileicon/${getSummoner.profileIconId}.png`" alt="소환사 아이콘 이미지">
         <h2>{{ getSummoner.name }}</h2>
         <p>{{ getSummoner.summonerLevel }}</p>
       </div>
       <div class="rank-detail" v-if="getSoloRank.tier !== ''">
-        <img :src="require(`@/static/img/ranked-emblems/Emblem_${getSoloRank.tier}.png`)">
+        <img :src="require(`@/static/img/ranked-emblems/Emblem_${getSoloRank.tier}.png`)" alt="솔로랭크 티어 이미지">
         <div>
           <p>{{ getSoloRank.tier }} {{ getSoloRank.rank }} {{ getSoloRank.leaguePoints }}LP</p>
           <p>{{ getSoloRank.wins }}승 {{ getSoloRank.losses }}패</p>
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="rank-detail" v-if="getFlexRank.tier !== ''">
-        <img :src="require(`@/static/img/ranked-emblems/Emblem_${getFlexRank.tier}.png`)">
+        <img :src="require(`@/static/img/ranked-emblems/Emblem_${getFlexRank.tier}.png`)" alt="자유랭크 티어 이미지">
         <div>
           <p>{{ getFlexRank.tier }} {{ getFlexRank.rank }} {{ getFlexRank.leaguePoints }}LP</p>
           <p>{{ getFlexRank.wins }}승 {{ getFlexRank.losses }}패</p>
@@ -41,7 +41,7 @@
           <ul>
             <li class="my-match-info" :class="{ 'victory' : part.win }" v-for="(part) in match.participants" :key="part.summonerName" v-if="part.summonerName === getSummoner.name">
               <p>{{ part.win ? "승리" : "패배"}}</p>
-              <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/champion/${part.championName}.png`" class="champ-img">
+              <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/champion/${part.championName}.png`" class="champ-img" alt="챔피언 이미지">
               <div class="stat">
                 <nuxt-link :to="`/summoner/${part.summonerName}`">{{ part.summonerName }}</nuxt-link>
                 <p>{{ part.kills }} / {{ part.deaths }} / {{ part.assists }} ({{ Math.round((part.kills + part.assists) / part.deaths * 100) / 100 }})</p>
@@ -53,19 +53,19 @@
                 <p>받은 피해량 : {{ part.totalDamageTaken | comma }}</p>
               </div>
               <div class="items">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item0}.png`" @error="defaultItemImg">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item1}.png`" @error="defaultItemImg">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item2}.png`" @error="defaultItemImg">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item3}.png`" @error="defaultItemImg">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item4}.png`" @error="defaultItemImg">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item5}.png`" @error="defaultItemImg">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item0}.png`" @error="defaultItemImg" alt="아이템 이미지">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item1}.png`" @error="defaultItemImg" alt="아이템 이미지">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item2}.png`" @error="defaultItemImg" alt="아이템 이미지">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item3}.png`" @error="defaultItemImg" alt="아이템 이미지">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item4}.png`" @error="defaultItemImg" alt="아이템 이미지">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item5}.png`" @error="defaultItemImg" alt="아이템 이미지">
               </div>
               <div class="opener" @click="handleOpen(index)">
                 open
               </div>
             </li>
             <li class="show" :class="{ 'win': part.win }" v-for="(part) in match.participants" :key="part.summonerId" :id="'match' + index">
-              <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/champion/${part.championName}.png`" class="champ-img">
+              <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/champion/${part.championName}.png`" class="champ-img" alt="챔피언 이미지">
               <div class="stat">
                 <nuxt-link :to="`/summoner/${part.summonerName}`">{{ part.summonerName }}</nuxt-link>
                 <p>{{ part.kills }} / {{ part.deaths }} / {{ part.assists }} (cs : {{ part.totalMinionsKilled + part.neutralMinionsKilled }})</p>
@@ -76,12 +76,12 @@
                 <p>받은 피해량 : {{ part.totalDamageTaken | comma }}</p>
               </div>
               <div class="items">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item0}.png`" @error="defaultItemImg">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item1}.png`" @error="defaultItemImg">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item2}.png`" @error="defaultItemImg">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item3}.png`" @error="defaultItemImg">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item4}.png`" @error="defaultItemImg">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item5}.png`" @error="defaultItemImg">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item0}.png`" @error="defaultItemImg" alt="아이템 이미지">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item1}.png`" @error="defaultItemImg" alt="아이템 이미지">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item2}.png`" @error="defaultItemImg" alt="아이템 이미지">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item3}.png`" @error="defaultItemImg" alt="아이템 이미지">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item4}.png`" @error="defaultItemImg" alt="아이템 이미지">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item5}.png`" @error="defaultItemImg" alt="아이템 이미지">
               </div>
             </li>
           </ul>
