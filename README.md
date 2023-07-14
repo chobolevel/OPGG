@@ -1,23 +1,5 @@
-# nuxt-project
-
-> Nuxt.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-$ npm install # Or yarn install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm start
-
-# generate static project
-$ npm run generate
+# OP.GG 클론코딩(전적검색 프로젝트)
 ```
-
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
-
+즐겨하는 게임인 LOL의 전적검색에 사용되는 OP.GG라는 웹페이지를 알게 되었고,
+따라 만들어 보고 싶은 생각에 만들게 되었습니다.
+```
