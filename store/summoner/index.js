@@ -27,7 +27,7 @@ export const mutations = {
 export const actions = {
   async setSummonerInfo({ commit }, summonername) {
     if(summonername !== null && summonername !== "") {
-      const summoner = await this.$axios.get(encodeURI(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonername}?api_key=${process.env.RIOT_API_KEY}`));
+      const summoner = await this.$axios.get(encodeURI(`krApi/lol/summoner/v4/summoners/by-name/${summonername}?api_key=${process.env.RIOT_API_KEY}`));
       if(summoner.status === 200) {
         commit("setSummoner", summoner.data);
       } else {
@@ -39,7 +39,7 @@ export const actions = {
   },
   async setLeagueInfo({commit}, id) {
     if(id !== null && id !== "") {
-      const league = await this.$axios.get(encodeURI(`https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${id}?api_key=${process.env.RIOT_API_KEY}`));
+      const league = await this.$axios.get(encodeURI(`krApi/lol/league/v4/entries/by-summoner/${id}?api_key=${process.env.RIOT_API_KEY}`));
       if(league.status === 200) {
         if(league.data.length  === 2) {
           commit("setSoloRank", league.data[0]);
@@ -59,7 +59,7 @@ export const actions = {
   },
   async setMatchInfo({commit}, puuid) {
     if(puuid !== null && puuid !== "") {
-      const matchData = await this.$axios.get(encodeURI(`https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=20&api_key=${process.env.RIOT_API_KEY}`));
+      const matchData = await this.$axios.get(encodeURI(`asiaApi/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10&api_key=${process.env.RIOT_API_KEY}`));
       if(matchData.status === 200) {
         commit("setMatchIds", matchData.data);
       } else {
@@ -74,7 +74,7 @@ export const actions = {
     if(matchIds.length !== 0) {
       for(let i=0; i<matchIds.length; i++) {
         let matchId = matchIds[i];
-        let match = await this.$axios.get(encodeURI(`https://asia.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${process.env.RIOT_API_KEY}`));
+        let match = await this.$axios.get(encodeURI(`asiaApi/lol/match/v5/matches/${matchId}?api_key=${process.env.RIOT_API_KEY}`));
         matches.push(match.data.info);
       }
       commit("setMatches", matches);
