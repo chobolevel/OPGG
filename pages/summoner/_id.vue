@@ -5,7 +5,7 @@
     </div>
     <div class="summoner" v-else>
       <div class="summoner-detail">
-        <!--<img :src="require(`@/static/img/profileicon/${getSummoner.profileIconId}.png`)">-->
+        <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/profileicon/${getSummoner.profileIconId}.png`">
         <h2>{{ getSummoner.name }}</h2>
         <p>{{ getSummoner.summonerLevel }}</p>
       </div>
@@ -41,46 +41,46 @@
           <ul>
             <li class="my-match-info" :class="{ 'victory' : part.win }" v-for="(part) in match.participants" :key="part.summonerName" v-if="part.summonerName === getSummoner.name">
               <p>{{ part.win ? "승리" : "패배"}}</p>
-              <img class="champ-img" :src="require(`@/static/img/champion/${part.championName}.png`)">
+              <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/champion/${part.championName}.png`" class="champ-img">
               <div class="stat">
                 <nuxt-link :to="`/summoner/${part.summonerName}`">{{ part.summonerName }}</nuxt-link>
                 <p>{{ part.kills }} / {{ part.deaths }} / {{ part.assists }} (cs : {{part.totalMinionsKilled}})</p>
                 <span v-if="part.teamPosition !== ''">LINE : {{ part.teamPosition }}</span>
               </div>
               <div class="dealing">
-                <p>가한 피해량 : {{ part.totalDamageDealtToChampions }}</p>
-                <p>받은 피해량 : {{ part.totalDamageTaken }}</p>
+                <p>가한 피해량 : {{ part.totalDamageDealtToChampions | comma }}</p>
+                <p>받은 피해량 : {{ part.totalDamageTaken | comma }}</p>
               </div>
               <div class="items">
-                <img :src="require(`@/static/img/item/${part.item0}.png`)">
-                <img :src="require(`@/static/img/item/${part.item1}.png`)">
-                <img :src="require(`@/static/img/item/${part.item2}.png`)">
-                <img :src="require(`@/static/img/item/${part.item3}.png`)">
-                <img :src="require(`@/static/img/item/${part.item4}.png`)">
-                <img :src="require(`@/static/img/item/${part.item5}.png`)">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item0}.png`">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item1}.png`">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item2}.png`">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item3}.png`">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item4}.png`">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item5}.png`">
               </div>
               <div class="opener" @click="handleOpen(index)">
                 open
               </div>
             </li>
             <li class="show" :class="{ 'win': part.win }" v-for="(part) in match.participants" :key="part.summonerId" :id="'match' + index">
-              <img class="champ-img" :src="require(`@/static/img/champion/${part.championName}.png`)">
+              <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/champion/${part.championName}.png`" class="champ-img">
               <div class="stat">
                 <nuxt-link :to="`/summoner/${part.summonerName}`">{{ part.summonerName }}</nuxt-link>
-                <p>{{ part.kills }} / {{ part.deaths }} / {{ part.assists }} (cs : {{part.totalMinionsKilled}})</p>
+                <p>{{ part.kills }} / {{ part.deaths }} / {{ part.assists }} (cs : {{ part.totalMinionsKilled + part.neutralMinionsKilled }})</p>
                 <span v-if="part.teamPosition !== ''">LINE : {{ part.teamPosition }}</span>
               </div>
               <div class="dealing">
-                <p>가한 피해량 : {{ part.totalDamageDealtToChampions }}</p>
-                <p>받은 피해량 : {{ part.totalDamageTaken }}</p>
+                <p>가한 피해량 : {{ part.totalDamageDealtToChampions | comma }}</p>
+                <p>받은 피해량 : {{ part.totalDamageTaken | comma }}</p>
               </div>
               <div class="items">
-                <img :src="require(`@/static/img/item/${part.item0}.png`)">
-                <img :src="require(`@/static/img/item/${part.item1}.png`)">
-                <img :src="require(`@/static/img/item/${part.item2}.png`)">
-                <img :src="require(`@/static/img/item/${part.item3}.png`)">
-                <img :src="require(`@/static/img/item/${part.item4}.png`)">
-                <img :src="require(`@/static/img/item/${part.item5}.png`)">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item0}.png`">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item1}.png`">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item2}.png`">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item3}.png`">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item4}.png`">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item5}.png`">
               </div>
             </li>
           </ul>
@@ -105,10 +105,18 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
+import {SummonerMixins} from "~/mixins";
 
-  export default {
+export default {
     middleware: "search",
+    mixins: [SummonerMixins],
+    async asyncData({ store, route }) {
+      await store.dispatch('summoner/setSummonerInfo', route.params.id)
+      await store.dispatch('summoner/setLeagueInfo', store.getters["summoner/getSummoner"].id)
+      await store.dispatch('summoner/setMatchInfo', store.getters["summoner/getSummoner"].puuid)
+      await store.dispatch('summoner/setMatches', store.getters["summoner/getMatchIds"])
+    },
     methods: {
       ...mapActions("summoner", ["setSummonerInfo", "setLeagueInfo", "setMatchInfo", "setMatches"]),
       formatDate(start, end) {
@@ -127,12 +135,6 @@
           opener.innerText = "open";
         }
       }
-    },
-    async fetch() {
-      await this.setSummonerInfo(this.$route.params.id);
-      await this.setLeagueInfo(this.getSummoner.id);
-      await this.setMatchInfo(this.getSummoner.puuid);
-      await this.setMatches(this.getMatchIds);
     },
     computed: {
       ...mapGetters("summoner", [, "getSummoner", "getSoloRank", "getFlexRank", "getMatchIds", "getMatches"]),
@@ -176,6 +178,11 @@
     padding: 3px 5px;
     border-radius: 10px;
     background-color: #333;
+  }
+  .summoner-detail img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
   }
   .loading {
     padding: 80px 0;
