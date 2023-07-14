@@ -1,12 +1,16 @@
 <template>
   <footer>
-    <p>&copy; 2022 OP.GG</p>
+    <p>&copy; <span>{{ currentYear }}</span> OP.GG</p>
   </footer>
 </template>
 
 <script>
 export default {
-
+  computed: {
+    currentYear() {
+      return new Date().getFullYear()
+    }
+  }
 }
 </script>
 
