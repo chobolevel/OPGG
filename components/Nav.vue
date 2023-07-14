@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <nuxt-link to="/">HOME</nuxt-link>
+    <nuxt-link to="/">홈</nuxt-link>
   </nav>
 </template>
 
