@@ -44,20 +44,21 @@
               <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/champion/${part.championName}.png`" class="champ-img">
               <div class="stat">
                 <nuxt-link :to="`/summoner/${part.summonerName}`">{{ part.summonerName }}</nuxt-link>
-                <p>{{ part.kills }} / {{ part.deaths }} / {{ part.assists }} (cs : {{part.totalMinionsKilled}})</p>
-                <span v-if="part.teamPosition !== ''">LINE : {{ part.teamPosition }}</span>
+                <p>{{ part.kills }} / {{ part.deaths }} / {{ part.assists }} ({{ Math.round((part.kills + part.assists) / part.deaths * 100) / 100 }})</p>
+                <p>{{ part.totalMinionsKilled + part.neutralMinionsKilled }} ({{ (part.totalMinionsKilled + part.neutralMinionsKilled) }})</p>
+<!--                <span v-if="part.teamPosition !== ''">라인 : {{ part.teamPosition }}</span>-->
               </div>
               <div class="dealing">
                 <p>가한 피해량 : {{ part.totalDamageDealtToChampions | comma }}</p>
                 <p>받은 피해량 : {{ part.totalDamageTaken | comma }}</p>
               </div>
               <div class="items">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item0}.png`">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item1}.png`">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item2}.png`">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item3}.png`">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item4}.png`">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item5}.png`">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item0}.png`" @error="defaultItemImg">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item1}.png`" @error="defaultItemImg">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item2}.png`" @error="defaultItemImg">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item3}.png`" @error="defaultItemImg">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item4}.png`" @error="defaultItemImg">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item5}.png`" @error="defaultItemImg">
               </div>
               <div class="opener" @click="handleOpen(index)">
                 open
@@ -75,27 +76,39 @@
                 <p>받은 피해량 : {{ part.totalDamageTaken | comma }}</p>
               </div>
               <div class="items">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item0}.png`">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item1}.png`">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item2}.png`">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item3}.png`">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item4}.png`">
-                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item5}.png`">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item0}.png`" @error="defaultItemImg">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item1}.png`" @error="defaultItemImg">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item2}.png`" @error="defaultItemImg">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item3}.png`" @error="defaultItemImg">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item4}.png`" @error="defaultItemImg">
+                <img :src="`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/item/${part.item5}.png`" @error="defaultItemImg">
               </div>
             </li>
           </ul>
           <div class="objectives">
             <div class="blue-team-objectives">
-              <h4>BLUE TEAM</h4>
-              <span>baron : {{ match.teams[0].objectives.baron.kills }}</span>
-              <span>dragon : {{ match.teams[0].objectives.dragon.kills }}</span>
-              <span>tower : {{ match.teams[0].objectives.tower.kills }}</span>
+              <h4>파란 팀</h4>
+              <span>
+                <img src="https://s-lol-web.op.gg/images/icon/icon-baron.svg?v=1689224069050" alt="바론"> {{ match.teams[0].objectives.baron.kills }}
+              </span>
+              <span>
+                <img src="https://s-lol-web.op.gg/images/icon/icon-dragon.svg?v=1689224069050" alt="드래곤"> {{ match.teams[0].objectives.dragon.kills }}
+              </span>
+              <span>
+                <img src="https://s-lol-web.op.gg/images/icon/icon-tower.svg?v=1689224069050" alt="타워"> {{ match.teams[0].objectives.tower.kills }}
+              </span>
             </div>
             <div class="purple-team-objectives">
-              <h4>PURPLE TEAM</h4>
-              <span>baron : {{ match.teams[1].objectives.baron.kills }}</span>
-              <span>dragon : {{ match.teams[1].objectives.dragon.kills }}</span>
-              <span>tower : {{ match.teams[1].objectives.tower.kills }}</span>
+              <h4>퍼플 팀</h4>
+              <span>
+                <img src="https://s-lol-web.op.gg/images/icon/icon-baron-r.svg?v=1689224069050" alt="바론"> {{ match.teams[1].objectives.baron.kills }}
+              </span>
+              <span>
+                <img src="https://s-lol-web.op.gg/images/icon/icon-dragon-r.svg?v=1689224069050" alt="드래곤"> {{ match.teams[1].objectives.dragon.kills }}
+              </span>
+              <span>
+                <img src="https://s-lol-web.op.gg/images/icon/icon-tower-r.svg?v=1689224069050" alt="타워"> {{ match.teams[1].objectives.tower.kills }}
+              </span>
             </div>
           </div>
         </li>
@@ -134,10 +147,13 @@ export default {
         } else {
           opener.innerText = "open";
         }
+      },
+      defaultItemImg(e) {
+        e.target.src = ''
       }
     },
     computed: {
-      ...mapGetters("summoner", [, "getSummoner", "getSoloRank", "getFlexRank", "getMatchIds", "getMatches"]),
+      ...mapGetters("summoner", ["getSummoner", "getSoloRank", "getFlexRank", "getMatchIds", "getMatches"]),
       soloRankWinRate() {
         return Math.round(this.getSoloRank.wins / (this.getSoloRank.wins + this.getSoloRank.losses) * 100);
       },
@@ -285,5 +301,7 @@ export default {
   }
   .objectives div span {
     color: #222;
+    font-weight: bold;
+    padding: 0 5px;
   }
 </style>
