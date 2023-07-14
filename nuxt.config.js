@@ -42,6 +42,22 @@ module.exports = {
         })
       }
     }
-  }
+  },
+  axios: {
+    proxy: true
+  },
+  proxy: {
+    '/krApi': {
+      target: 'https://kr.api.riotgames.com',
+      pathRewrite: { '^/krApi': '' }
+    },
+    '/asiaApi': {
+      target: 'https://asia.api.riotgames.com',
+      pathRewrite: { '^/asiaApi': '' }
+    }
+  },
+  plugins: [
+    { src: '~plugins/filter.js' }
+  ]
 }
 
