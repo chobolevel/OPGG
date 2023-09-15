@@ -32,19 +32,7 @@ export default {
     await store.dispatch('summoner/setMatches', store.getters["summoner/getMatchIds"])
   },
   methods: {
-    ...mapActions("summoner", ["setSummonerInfo", "setLeagueInfo", "setMatchInfo", "setMatches"]),
-    handleOpen(index) {
-      const opener = document.querySelector(".opener");
-      const match = Array.from(document.querySelectorAll(`#match${index}`));
-      match.forEach((mat) => {
-        mat.classList.toggle("show");
-      });
-      if (opener.innerText === "open") {
-        opener.innerText = "close";
-      } else {
-        opener.innerText = "open";
-      }
-    }
+    ...mapActions("summoner", ["setSummonerInfo", "setLeagueInfo", "setMatchInfo", "setMatches"])
   },
   computed: {
     ...mapGetters("summoner", ["getSummoner", "getSoloRank", "getFlexRank", "getMatchIds", "getMatches"])
