@@ -10,8 +10,14 @@ export default {
   },
   methods: {
     defaultItemImg(e) {
-      e.target.src = 'http://via.placeholder.com/50x50'
+      e.target.src = require('../../static/img/basic/default-item.jpg')
     }
   }
 }
 </script>
+
+<style>
+img {
+  border-radius: 5px;
+}
+</style>
