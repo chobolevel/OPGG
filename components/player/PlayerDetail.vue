@@ -21,6 +21,7 @@
       <Item :item="player.item3"/>
       <Item :item="player.item4"/>
       <Item :item="player.item5"/>
+      <Item :item="player.item6"/>
     </div>
   </div>
 </template>
@@ -32,7 +33,7 @@ export default {
   components: {Item},
   props: {
     player: Object,
-    takenMinutes: Number
+    duration: String
   },
   computed: {
     kdaStat() {
@@ -49,7 +50,8 @@ export default {
       return this.player.totalMinionsKilled + this.player.neutralMinionsKilled
     },
     minionsKilledPerMinute() {
-      return this.player.totalMinionsKilled + this.player.neutralMinionsKilled
+      const minutes = this.duration.split('분')[0]
+      return Math.round((this.player.totalMinionsKilled + this.player.neutralMinionsKilled) / minutes * 10) / 10
     }
   }
 }
