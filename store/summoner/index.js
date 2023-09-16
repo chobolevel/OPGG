@@ -7,14 +7,14 @@ export const state = () => ({
 });
 
 export const mutations = {
-  setSummoner(state, { accountId, id, name, profileIconId, puuid, revisionDate, summonerLevel }) {
-    state.summoner = { accountId, id, name, profileIconId, puuid, revisionDate, summonerLevel };
+  setSummoner(state, summoner) {
+    state.summoner = summoner;
   },
-  setSoloRank(state, {freshBlood, hotStreak, inactive, leagueId, leaguePoints, losses, queueType, rank, summonerId, summonerName, tier, veteran, wins}) {
-    state.soloRank = {freshBlood, hotStreak, inactive, leagueId, leaguePoints, losses, queueType, rank, summonerId, summonerName, tier, veteran, wins};
+  setSoloRank(state, soloRank) {
+    state.soloRank = soloRank;
   },
-  setFlexRank(state, {freshBlood, hotStreak, inactive, leagueId, leaguePoints, losses, queueType, rank, summonerId, summonerName, tier, veteran, wins}) {
-    state.flexRank = {freshBlood, hotStreak, inactive, leagueId, leaguePoints, losses, queueType, rank, summonerId, summonerName, tier, veteran, wins};
+  setFlexRank(state, flexRank) {
+    state.flexRank = flexRank;
   },
   setMatchIds(state, ids) {
     state.matchIds = ids;
@@ -30,11 +30,7 @@ export const actions = {
       const summoner = await this.$axios.get(encodeURI(`krApi/lol/summoner/v4/summoners/by-name/${summonername}?api_key=${process.env.RIOT_API_KEY}`));
       if(summoner.status === 200) {
         commit("setSummoner", summoner.data);
-      } else {
-        commit("setSummoner", { accountId: "", id: "", name: "", profileIconId: "", puuid: "", revisionDate: "", summonerLevel: ""});
       }
-    } else {
-      commit("setSummoner", { accountId: "", id: "", name: "", profileIconId: "", puuid: "", revisionDate: "", summonerLevel: ""});
     }
   },
   async setLeagueInfo({commit}, id) {
@@ -46,15 +42,8 @@ export const actions = {
           commit("setFlexRank", league.data[1]);
         } else if(league.data.length === 1) {
           commit("setSoloRank", league.data[0]);
-          commit("setFlexRank", { freshBlood: "", hotStreak: "", inactive: "", leagueId: "", leaguePoints: "", losses: "", queueType: "", rank: "", summonerId: "", summonerName: "", tier: "", veteran: "", wins: "" });
         }
-      } else {
-        commit("setSoloRank", { freshBlood: "", hotStreak: "", inactive: "", leagueId: "", leaguePoints: "", losses: "", queueType: "", rank: "", summonerId: "", summonerName: "", tier: "", veteran: "", wins: "" });
-        commit("setFlexRank", { freshBlood: "", hotStreak: "", inactive: "", leagueId: "", leaguePoints: "", losses: "", queueType: "", rank: "", summonerId: "", summonerName: "", tier: "", veteran: "", wins: "" });
       }
-    } else {
-      commit("setSoloRank", { freshBlood: "", hotStreak: "", inactive: "", leagueId: "", leaguePoints: "", losses: "", queueType: "", rank: "", summonerId: "", summonerName: "", tier: "", veteran: "", wins: "" });
-      commit("setFlexRank", { freshBlood: "", hotStreak: "", inactive: "", leagueId: "", leaguePoints: "", losses: "", queueType: "", rank: "", summonerId: "", summonerName: "", tier: "", veteran: "", wins: "" });
     }
   },
   async setMatchInfo({commit}, puuid) {
@@ -62,11 +51,7 @@ export const actions = {
       const matchData = await this.$axios.get(encodeURI(`asiaApi/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10&api_key=${process.env.RIOT_API_KEY}`));
       if(matchData.status === 200) {
         commit("setMatchIds", matchData.data);
-      } else {
-        commit("setMatchIds", []);
       }
-    } else {
-      commit("setMatchIds", []);
     }
   },
   async setMatches({commit}, matchIds) {
@@ -78,8 +63,6 @@ export const actions = {
         matches.push(match.data.info);
       }
       commit("setMatches", matches);
-    } else {
-      commit("setMatches", []);
     }
   },
   setAllClear({commit}) {

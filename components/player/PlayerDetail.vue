@@ -4,10 +4,8 @@
          alt="챔피언 이미지" class="champ-img">
     <div class="stat">
       <nuxt-link :to="`/summoner/${player.summonerName}`">{{ player.summonerName }}</nuxt-link>
-      <p>{{ kdaStat }}
-        ({{ kda }})</p>
-      <p>{{ totalMinionsKilled }}
-        ({{ minionsKilledPerMinute }})</p>
+      <p>{{ kdaStat }} ({{ kda }})</p>
+      <p>{{ totalMinionsKilled }} ({{ minionsKilledPerMinute }})</p>
       <!--                <span v-if="part.teamPosition !== ''">라인 : {{ part.teamPosition }}</span>-->
     </div>
     <div class="dealing">
@@ -47,7 +45,7 @@ export default {
       }
     },
     totalMinionsKilled() {
-      return this.player.totalMinionsKilled + this.player.neutralMinionsKilled
+      return `CS ${this.player.totalMinionsKilled + this.player.neutralMinionsKilled}`
     },
     minionsKilledPerMinute() {
       const minutes = this.duration.split('분')[0]
