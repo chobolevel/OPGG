@@ -46,23 +46,38 @@ export const actions = {
       }
     }
   },
-  async setMatchInfo({commit}, puuid) {
+  async setMatchInfo({commit, getters}, puuid) {
     if(puuid !== null && puuid !== "") {
-      const matchData = await this.$axios.get(encodeURI(`asiaApi/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10&api_key=${process.env.RIOT_API_KEY}`));
-      if(matchData.status === 200) {
-        commit("setMatchIds", matchData.data);
+      const matchIdCnt = getters.getMatchIds.length
+      if(matchIdCnt === 0) {
+        const matchData = await this.$axios.get(encodeURI(`asiaApi/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10&api_key=${process.env.RIOT_API_KEY}`));
+        if(matchData.status === 200) {
+          commit("setMatchIds", matchData.data);
+        }
+      } else {
+        const matchData = await this.$axios.get(encodeURI(`asiaApi/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${matchIdCnt}&count=10&api_key=${process.env.RIOT_API_KEY}`));
+        if(matchData.status === 200) {
+          commit('setMatchIds', [...getters.getMatchIds, ...matchData.data])
+        }
       }
     }
   },
-  async setMatches({commit}, matchIds) {
-    let matches = [];
-    if(matchIds.length !== 0) {
+  async setMatches({commit, getters}, matchIds) {
+    const matches = [];
+    if(matchIds.length !== 0 && matchIds.length === 10) {
       for(let i=0; i<matchIds.length; i++) {
-        let matchId = matchIds[i];
-        let match = await this.$axios.get(encodeURI(`asiaApi/lol/match/v5/matches/${matchId}?api_key=${process.env.RIOT_API_KEY}`));
+        const matchId = matchIds[i];
+        const match = await this.$axios.get(encodeURI(`asiaApi/lol/match/v5/matches/${matchId}?api_key=${process.env.RIOT_API_KEY}`));
         matches.push(match.data.info);
       }
       commit("setMatches", matches);
+    } else {
+      for(let i = matchIds.length - 10; i < matchIds.length; i++) {
+        const matchId = matchIds[i]
+        const match = await this.$axios.get(encodeURI(`asiaApi/lol/match/v5/matches/${matchId}?api_key=${process.env.RIOT_API_KEY}`));
+        matches.push(match.data.info)
+      }
+      commit("setMatches", [...getters.getMatches, ...matches])
     }
   },
   setAllClear({commit}) {

@@ -11,6 +11,7 @@
       <ul>
         <MatchList v-for="(match, index) in getMatches" :key="index" :match="match"/>
       </ul>
+      <div class="more-match-btn" @click="addMatchData">더보기</div>
     </div>
   </section>
 </template>
@@ -32,7 +33,13 @@ export default {
     await store.dispatch('summoner/setMatches', store.getters["summoner/getMatchIds"])
   },
   methods: {
-    ...mapActions("summoner", ["setSummonerInfo", "setLeagueInfo", "setMatchInfo", "setMatches"])
+    ...mapActions("summoner", ["setSummonerInfo", "setLeagueInfo", "setMatchInfo", "setMatches"]),
+    async addMatchData(event) {
+      event.target.innerText = '불러오는 중...'
+      await this.$store.dispatch('summoner/setMatchInfo', this.$store.getters["summoner/getSummoner"].puuid)
+      await this.$store.dispatch("summoner/setMatches", this.$store.getters["summoner/getMatchIds"])
+      event.target.innerText = '더보기'
+    }
   },
   computed: {
     ...mapGetters("summoner", ["getSummoner", "getSoloRank", "getFlexRank", "getMatchIds", "getMatches"])
@@ -211,5 +218,18 @@ section {
   color: #222;
   font-weight: bold;
   padding: 0 5px;
+}
+.more-match-btn {
+  padding: 20px;
+  margin: 30px 0;
+  background-color: #fff;
+  color: #000;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+.more-match-btn:hover {
+  cursor: pointer;
 }
 </style>
