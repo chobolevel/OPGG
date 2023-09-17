@@ -1,6 +1,6 @@
 <template>
   <div v-if="rank.tier !== ''" class="rank-detail">
-    <img :src="require(`@/static/img/ranked-emblems/Emblem_${rank.tier}.png`)" alt="솔로랭크 티어 이미지">
+    <img :src="rankImg" alt="솔로랭크 티어 이미지">
     <div>
       <p>{{ rankDetail }}</p>
       <p>{{ rankWinAndLose }}</p>
@@ -15,6 +15,9 @@ export default {
     rank: Object
   },
   computed: {
+    rankImg() {
+      return `https://opgg-static.akamaized.net/images/medals_new/${this.rank.tier.toLowerCase()}.png?image=q_auto,f_webp,w_144&v=1694664078578`
+    },
     rankDetail() {
       return `${this.rank.tier} ${this.rank.rank} ${this.rank.leaguePoints}LP`
     },
