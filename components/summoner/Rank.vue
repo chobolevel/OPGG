@@ -1,6 +1,6 @@
 <template>
   <div v-if="rank.tier !== ''" class="rank-detail">
-    <img :src="rankImg" alt="솔로랭크 티어 이미지">
+    <img :src="rankImg" alt="랭크 티어 이미지">
     <div>
       <p>{{ rankDetail }}</p>
       <p>{{ rankWinAndLose }}</p>
