@@ -2,7 +2,7 @@
   <li class="match-info">
     <div class="match-desc">
             <span class="match-type">
-              {{ gameMode }}
+              {{ gameMode }}({{ elapsedTime }})
             </span>
       <span class="match-duration">{{ formatDate(match.gameStartTimestamp, match.gameEndTimestamp) }}</span>
     </div>
@@ -32,6 +32,7 @@ import {mapActions, mapGetters} from "vuex";
 import Item from "../item/Item.vue";
 import PlayerDetail from "../player/PlayerDetail.vue";
 import ObjectiveDetail from "../objective/ObjectiveDetail.vue";
+import moment from "moment";
 
 export default {
   components: {ObjectiveDetail, PlayerDetail, Item},
@@ -63,6 +64,9 @@ export default {
         ARAM: '칼바람 나락'
       }
       return mode[this.match.gameMode]
+    },
+    elapsedTime() {
+      return moment(this.match.gameStartTimestamp).lang('ko').fromNow()
     }
   }
 }
