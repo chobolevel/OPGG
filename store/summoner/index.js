@@ -37,11 +37,13 @@ export const actions = {
     if(id !== null && id !== "") {
       const league = await this.$axios.get(encodeURI(`krApi/lol/league/v4/entries/by-summoner/${id}?api_key=${process.env.RIOT_API_KEY}`));
       if(league.status === 200) {
-        if(league.data.length  === 2) {
-          commit("setSoloRank", league.data[0]);
-          commit("setFlexRank", league.data[1]);
-        } else if(league.data.length === 1) {
-          commit("setSoloRank", league.data[0]);
+        const soloRank = league.data.find((rankInfo) => rankInfo.queueType === 'RANKED_SOLO_5x5')
+        const flexRank = league.data.find((rankInfo) => rankInfo.queueType === 'RANKED_FLEX_SR')
+        if(soloRank) {
+          commit('setSoloRank', soloRank)
+        }
+        if(flexRank) {
+          commit('setFlexRank', flexRank)
         }
       }
     }
