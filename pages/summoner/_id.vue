@@ -35,10 +35,12 @@ export default {
   methods: {
     ...mapActions("summoner", ["setSummonerInfo", "setLeagueInfo", "setMatchInfo", "setMatches"]),
     async addMatchData(event) {
-      event.target.innerText = '불러오는 중...'
-      await this.$store.dispatch('summoner/setMatchInfo', this.$store.getters["summoner/getSummoner"].puuid)
-      await this.$store.dispatch("summoner/setMatches", this.$store.getters["summoner/getMatchIds"])
-      event.target.innerText = '더보기'
+      if(event.target.innerText === '더보기') {
+        event.target.innerText = '불러오는 중...'
+        await this.$store.dispatch('summoner/setMatchInfo', this.$store.getters["summoner/getSummoner"].puuid)
+        await this.$store.dispatch("summoner/setMatches", this.$store.getters["summoner/getMatchIds"])
+        event.target.innerText = '더보기'
+      }
     }
   },
   computed: {
